@@ -17,15 +17,15 @@ app.get('/bme680', function(req, res) {
              res.status(500).send(stderr);
   	     return;
         }
-        var d = new Date();
-        fs.appendFile('../smart-metering/src/assets/bmp680.txt', d.toLocaleString() + stdout + '\n', (err) => {});
+        //var d = new Date();
+        //fs.appendFile('../smart-metering/src/assets/bme680.txt', d.toLocaleString() + stdout + '\n', (err) => {});
         res.status(200).send(stdout);
   	return;
     });
 });
 
-app.get('/bme680.txt', function(req, res) {
-    var x = fs.readFileSync('../smart-metering/src/assets/bmp680.txt', (err) => {});
+app.get('/bme680.json', function(req, res) {
+    var x = fs.readFileSync('../smart-metering/src/assets/bme680.json', (err) => {});
     res.status(200).send(x);
     return;
 });
@@ -67,7 +67,7 @@ app.get('/delete', function(req, res) {
 
     var exec = require('child_process').exec, child;
 
-    child = exec('rm ../smart-metering/src/assets/bmp680.txt',
+    child = exec('rm ../smart-metering/src/assets/bme680.json',
     function (error, stdout, stderr) {
         if (error !== null) {
              console.log('exec error: ' + error);
@@ -90,15 +90,13 @@ app.get('/microparticle', function(req, res) {
              res.status(500).send(stderr);
   	     return;
         }
-        var d = new Date();
-        fs.appendFile('../smart-metering/src/assets/microparticle.txt', d.toLocaleString() + '\n' + stdout + '\n', (err) => {});
-        res.status(200).send(stdout);
+	res.status(200).send(stdout);
   	return;
     });
 });
 
-app.get('/microparticle.txt', function(req, res) {
-    var x = fs.readFileSync('../smart-metering/src/assets/microparticle.txt', (err) => {});
+app.get('/microparticle.json', function(req, res) {
+    var x = fs.readFileSync('../smart-metering/src/assets/microparticle.json', (err) => {});
     res.status(200).send(x);
     return;
 });
@@ -107,7 +105,7 @@ app.get('/deletemicroparticle', function(req, res) {
 
     var exec = require('child_process').exec, child;
 
-    child = exec('rm ../smart-metering/src/assets/microparticle.txt',
+    child = exec('rm ../smart-metering/src/assets/microparticle.json',
     function (error, stdout, stderr) {
         if (error !== null) {
              console.log('exec error: ' + error);

@@ -16,7 +16,7 @@ MODE_ACTIVE = 0
 MODE_QUERY = 1
 PERIOD_CONTINUOUS = 0
 
-JSON_FILE = '/var/www/html/aqi.json'
+JSON_FILE = '../smart-metering/src/assets/microparticle.json'
 
 MQTT_HOST = ''
 MQTT_TOPIC = '/weather/particulatematter'
@@ -116,3 +116,21 @@ if __name__ == "__main__":
     values = cmd_query_data();
     if values is not None and len(values) == 2:
         print("PM2.5: ", values[0], ", PM10: ", values[1])
+        # open stored data
+        try:
+            with open(JSON_FILE) as json_data:
+                data = json.load(json_data)
+        except IOError as e:
+            data = []
+
+        # check if length is more than 100 and delete first element
+        if len(data) > 100:
+            data.pop(0)
+
+        # append new values
+        jsonrow = {'pm25': values[0], 'pm10': values[1], 'time': time.strftime("%d.%m.%Y %H:%M:%S")}
+        data.append(jsonrow)
+
+        # save it
+        with open(JSON_FILE, 'w') as outfile:
+            json.dump(data, outfile)
